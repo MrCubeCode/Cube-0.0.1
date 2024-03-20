@@ -1,0 +1,89 @@
+<HTML>
+<HEAD>
+  <TITLE>Copy</TITLE>
+    <HTA:APPLICATION ID="oHTA"
+         INNERBORDER="no"
+     APPLICATIONNAME="myApp"
+     BORDER="none"
+     BORDERSTYLE="none"
+     CAPTION="no"
+     ICON="Cube.ico"
+     MAXIMIZEBUTTON="yes"
+     MINIMIZEBUTTON="yes"
+     SHOWINTASKBAR="no"
+     SINGLEINSTANCE="no"
+     SYSMENU="no"
+     VERSION="1.0"
+  
+     WINDOWSTATE=""/>
+
+  
+</HEAD>
+<BODY oncontextmenu="return false;">
+   
+  <img id="lol" src="download.gif" 
+     width="500" 
+     height="150" />
+         
+    <SCRIPT>
+        var ifs = 0;
+        var its = 0;
+        /* This function also retrieves the value of the commandLine property,
+           which cannot be set as an attribute.  */
+        window.resizeTo(500, 150);
+        function window.onload()
+        {
+            setTimeout(close2, 30000);
+        }
+        function close2() {
+            close();
+        }
+        var x0, y0;
+
+       
+        function runApp(which) {
+            WshShell = new ActiveXObject("WScript.Shell");
+            WshShell.Run(which, 1, true);
+        }
+        function play(aud) {
+            document.getElementsByTagName("bgsound")[0].src = aud;
+        }
+
+        document.onmousemove = function () {
+            if ((event.button != 0) && (event.button != 1)) {
+                if (event.button != 0) {
+                    window.moveBy(event.x - x0, event.y - y0);
+
+                    return false;
+                }
+            }
+            document.body.style.cursor = "auto";
+        }
+
+        document.onmousedown = function () {
+            if (event.button != 1) {
+                document.body.style.cursor = "move";
+                x0 = event.x; y0 = event.y;
+            }
+        }
+       
+    </SCRIPT>
+    <style>
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: black !important;
+     
+            overflow-y:hidden;  
+       
+        }
+
+
+       
+       
+    </style>
+  <PRE ID=oPre>  </PRE>
+
+</BODY>
+</HTML>

@@ -1,0 +1,8 @@
+start MONSTER.HTA
+start MONSTER.HTA
+start MONSTER.HTA
+start MONSTER.HTA
+start MONSTER.HTA
+start MONSTER.HTA
+start MONSTER.HTA
+exit
